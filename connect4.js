@@ -6,14 +6,15 @@
  */
 class Game{
   constructor(){
+    console.log(document.getElementById("plColor"))
+    const colorOne = document.getElementById("plColor").value
     console.log(document.querySelector("#plColor"))
-    const colorOne = document.querySelector("#plColor").value
-    console.log(document.querySelector("#plColor"))
-    const colorTwo = document.querySelector("#p2Color").value
+    const colorTwo = document.getElementById("#p2Color").value
     this.width = 7;
     this.height = 6;
     // this.currPlayer = 1
     this.playerOne = new Player(colorOne)
+    console.log(this.playerOne.color)
     this.playerTwo = new Player(colorTwo)
     this.currPlayer = this.playerOne
     this.board = []
