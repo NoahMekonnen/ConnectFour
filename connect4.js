@@ -6,15 +6,12 @@
  */
 class Game{
   constructor(){
-    console.log(document.getElementById("plColor"))
-    const colorOne = document.getElementById("plColor").value
-    console.log(document.querySelector("#plColor"))
-    const colorTwo = document.getElementById("#p2Color").value
+    const colorOne = document.getElementById("p1Color").value
+    const colorTwo = document.getElementById("p2Color").value
     this.width = 7;
     this.height = 6;
     // this.currPlayer = 1
     this.playerOne = new Player(colorOne)
-    console.log(this.playerOne.color)
     this.playerTwo = new Player(colorTwo)
     this.currPlayer = this.playerOne
     this.board = []
@@ -86,12 +83,11 @@ placeInTable(y, x) {
   const piece = document.createElement('div');
   piece.classList.add('piece');
   if(this.currPlayer == this.playerOne){
-    piece.backgroundColor = this.playerOne.color;
+    piece.style.backgroundColor = this.playerOne.color;
   }
-  console.log(this.playerTwo.color)
   if(this.currPlayer == this.playerTwo){
-    piece.backgroundColor = this.playerTwo.color;
-    console.log(this.playerTwo.color)
+    piece.style.backgroundColor = this.playerTwo.color;
+
   }
   piece.style.top = -50 * (y + 2);
 
@@ -126,7 +122,7 @@ handleClick(evt) {
   // check for win
   if (this.checkForWin()) {
     this.win = true
-    return this.endGame(`Player ${this.currPlayer} won!`);
+    return this.currPlayer === this.playerOne ? this.endGame(`Player ${"1"} won!`): this.endGame(`Player ${"2"} won!`);
   }
   
   // check for tie
@@ -135,7 +131,7 @@ handleClick(evt) {
   }
     
   // switch players
-  this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+  this.currPlayer = this.currPlayer === this.playerOne ? this.playerTwo : this.playerOne;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -175,15 +171,24 @@ checkForWin() {
 // const newGame = new Game()
 // newGame.makeBoard();
 // newGame.makeHtmlBoard();
-const startButton = document.querySelector("#Start")
+const startButton = document.querySelector("#Start");
 startButton.addEventListener("click", function(){
-  const newGame = new Game()
+  const game = document.getElementById("game")
+  const table = document.getElementById('board');
+  if (table.hasChildNodes()){
+    table.remove();
+    const newTable = document.createElement('table');
+    newTable.setAttribute('id','board')
+    game.appendChild(newTable);
+  }
+  const newGame = new Game();
   newGame.makeBoard();
   newGame.makeHtmlBoard();
+  document.querySelector('form').reset();
 })
 
 class  Player{
   constructor(color){
-    this.color = color
+    this.color = color;
   }
 }
